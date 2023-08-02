@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New VAT Calculation - Credit Recharge</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #000;
+            /* Orange background color */
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 40px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            /* White background for container */
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .custom-btn {
+            background-color: #ff7900;
+            /* Set the same color as the background */
+            border-color: #ff7900;
+
+            /* Set border color as well, so it is still visible */
+            color: #fff;
+            /* Set text color to white, so it is visible on the orange background */
+        }
+
+        /* Add the new style for the button on hover */
+        .custom-btn:hover {
+            background-color: #000;
+            /* Change background color to black on hover */
+            border-color: #000;
+            /* Change border color to black on hover */
+        }
+
+        .font {
+            font-size: small;
+
+        }
+
+        .main {
+            font-size: medium;
+
+        }
+    </style>
+</head>
+<div class="con">
+    <img src="Orange_logo.svg.png" alt="Your Logo" style="position: absolute; top: 20px; left: 20px; width: 90px;">
+    <!-- ... (existing content) -->
+</div>
+
+
+<body>
+    <div class="container">
+        <h2 class="text-center mb-4">New VAT Calculation - Credit Recharge</h2>
+        <form id="vatForm">
+            <div class="form-group">
+                <label for="amountInput">Enter Amount</label>
+                <input type="text" class="form-control" id="amountInput" placeholder="Enter amount"
+                    onkeydown="handleEnterKey(event)">
+                <!-- Hidden input to capture the entered amount -->
+                <input type="hidden" id="hiddenAmountInput">
+            </div>
+            <button type="button" class="btn btn-primary btn-block custom-btn" onclick="calculateVAT()">Submit</button>
+
+        </form>
+        <div class="result mt-4" id="resultDiv"></div>
+    </div>
+
+    <!-- Bootstrap and JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+
+        // Function to handle the "Enter" key press
+        function handleEnterKey(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent form submission
+                const amountInput = document.getElementById("amountInput").value;
+                document.getElementById("hiddenAmountInput").value = amountInput; // Store the entered amount in the hidden input
+                calculateVAT(); // Calculate the VAT
+            }
+        }
+
+        function calculateVAT() {
+            const amount = parseFloat(document.getElementById("amountInput").value);
+            if (!isNaN(amount)) {
+                const VAT_8 = amount * 0.08;
+                const amount_and_VAT8 = amount + VAT_8;
+
+                const VAT_14 = amount_and_VAT8 * 0.14;
+                const amount_and_VAT14 = VAT_14 + amount_and_VAT8;
+
+
+                const new_state_development_fees = amount_and_VAT14 + 12.31;
+
+                // New calculations
+                const recharging_fees = amount * (100 / 70);
+                const main_credit = amount * 0.7;
+
+                const outputText =
+                    "•<strong> Amount: </strong>$" + "<u>" + amount.toFixed(2) + "</u>" +
+                    "<br>•<strong> Amount + VAT 8%: </strong>$" + "<u>" + amount_and_VAT8.toFixed(2) + "</u>" +
+                    "<br><br>•<strong> Amount + VAT 14%: </strong>$" + "<u>" + amount_and_VAT14.toFixed(2) + "</u>" +
+                    "<br>•<strong> Amount After Adding New State Development Fees: </strong>$" + "<u>" + new_state_development_fees.toFixed(2) + "</u>" +
+                    "<br><br><strong> If the customer wants to receive a certain amount, how much he should pay: </strong>" +
+                    "<br>•<strong> Recharging Fees: </strong>$" + "<u>" + recharging_fees.toFixed(2) + "</u>" +
+                    "<br><br><strong> If the customer inquires if he pays a certain amount, how much he will receive as a net balance: </strong>" +
+                    "<br>•<strong> Main Credit: </strong>$" + "<u>" + main_credit.toFixed(2); "</u>"
+
+                document.getElementById("resultDiv").innerHTML = outputText;
+            } else {
+                document.getElementById("resultDiv").innerHTML = "Invalid input. Please enter a valid numeric amount.";
+            }
+        }
+    </script>
+    <!-- Footer -->
+    <footer class="text-center mt-5">
+        <!-- <p class="main">&copy; 2023 Orange<sup>TM</sup> All rights reserved </p> -->
+        <p class="main">&copy; 2023 Orange<sup>TM</sup></p>
+        <p class="font">Developed by Mohab Khaled Software Engineer </p>
+    </footer>
+</body>
+
+</html>
